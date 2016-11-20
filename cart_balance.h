@@ -57,7 +57,8 @@ namespace CB {
 		double theta; // ever changing theta - main objective to keep theta around 90*
 		// ball position
 		double Px; // x coordinate of Pendulum;
-		double Py; // y coordinate of Pendulum;
+		double Py; // y coordinate of Pendulum;{
+			
 		double theta_dot; // ever changing velocity of theta.
 		double theta_dd; // acceleration of theta.
 	};
@@ -109,11 +110,11 @@ namespace CB {
 
 		// variables
 		Pend_state nextState;
-
+		//note
 
 		// does all necessary calculations, given an action (already set from set_action), to arrive at the next state at the next timestep.
 		//torque to theta dd
-		nextState.theta_dd = -g*cos(pend[pend.end() - 1].theta) / (mass_p*length) + torq; //rad/s^2   // define theta_dd with t variable 
+		nextState.theta_dd = -g*cos(pend.at(pend.end() - 1).theta) / (mass_p*length) + torq; //rad/s^2   // define theta_dd with t variable 
 		//thetat_dd to theta_dot
 		nextState.theta_dot = pend.at(pend.end() - 1).theta_dot + nextState.theta_dd*dt;
 		//theta_dot to theta

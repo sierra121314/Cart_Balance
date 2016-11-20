@@ -77,12 +77,16 @@ namespace CB {
 		double reward; //last reward for the last action
 
 		// public functions
+		
+		
+		void cycle();
+		
+		void determine_reward();
+	public:
 		Pendulum();
+		std::vector <double> give_reward();
 		std::vector <double> give_state();
 		void get_action(std::vector <double>);
-		void cycle();
-		std::vector <double> give_reward();
-		void determine_reward();
 	};
 
 	void Pendulum::Pendulum()
@@ -109,11 +113,11 @@ namespace CB {
 
 		// does all necessary calculations, given an action (already set from set_action), to arrive at the next state at the next timestep.
 		//torque to theta dd
-		nextState.theta_dd = -g*cos(pend[i - 1].theta) / (m*L) + torq; //rad/s^2   // define theta_dd with t variable 
+		nextState.theta_dd = -g*cos(pend[pend.end() - 1].theta) / (m*L) + torq; //rad/s^2   // define theta_dd with t variable 
 		//thetat_dd to theta_dot
-		nextState.theta_dot = pend[i - 1].theta_dot + nextState.theta_dd*dt;
+		nextState.theta_dot = pend[pend.end() - 1].theta_dot + nextState.theta_dd*dt;
 		//theta_dot to theta
-		nextState.theta = pend[i - 1].theta + nextState.theta_dot*dt;
+		nextState.theta = pend[pend.end() - 1].theta + nextState.theta_dot*dt;
 		//theta to xy
 		nextState.Px = L*cos(nextState.theta);
 		nextState.Py = L*sin(nextState.theta);
@@ -131,15 +135,15 @@ namespace CB {
 									  //calculate xy
 									  //use theta
 									  //output xy
-			fout << pend.give_state(i).Px << "," << pend.give_state(i).Py << "," << dt*i << "," \
-				<< pend.give_state(i).theta << "," << pend.give_state(i).theta_dot << "," \
-				<< pend.give_state(i).theta_dd << std::endl;
+			fout << pend.give_state(pend.end()-1).Px << "," << pend.give_state(pend.end()-1).Py << "," << dt*i << "," \
+				<< pend.give_state(pend.end()-1).theta << "," << pend.give_state(pend.end()-1).theta_dot << "," \
+				<< pend.give_state(pend.end()-1).theta_dd << std::endl;
 		}
 		fout.close();
 
 	}
 
-	double determine_reward() {
+	double Pendulum::determine_reward() {
 		double temp_reward;
 		temp_reward = 0.0;
 		return temp_reward;
@@ -156,8 +160,8 @@ namespace CB {
 	std::vector <double> Pendulum::give_state() {
 		//gives the state of the pendulum at the given timestep
 		std::vector <double> temp_state;
-		temp_state.push_back(pend.at(pend.end()).theta);
-		temp_state.push_back(pend.at(pend.end()).theta_dot);
+		temp_state.push_back(pend.at(pend.end()-1).theta);
+		temp_state.push_back(pend.at(pend.end()-1).theta_dot);
 		return temp_state;
 	}
 	std::vector <double> Pendulum::give_reward() {

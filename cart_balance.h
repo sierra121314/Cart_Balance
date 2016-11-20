@@ -63,7 +63,7 @@ namespace CB {
 
 
 	class Pendulum {
-
+	private:
 		// static variables
 		const double m = 50; // Mass of Pendulum
 		const double L = 10; // Length of the Pendulum
@@ -77,19 +77,16 @@ namespace CB {
 		double reward; //last reward for the last action
 
 		// public functions
-		
-		
-		void cycle();
-		
 		void determine_reward();
 	public:
 		Pendulum();
 		std::vector <double> give_reward();
 		std::vector <double> give_state();
 		void get_action(std::vector <double>);
+		void cycle();
 	};
 
-	void Pendulum::Pendulum()
+	Pendulum::Pendulum()
 	{
 		Pend_state initial;
 		initial.theta = 45 * M_PI / 180;
@@ -166,7 +163,7 @@ namespace CB {
 	}
 	std::vector <double> Pendulum::give_reward() {
 		std::vector <double> temp_reward;
-		temp_state.push_back(reward);
+		temp_reward.push_back(reward);
 
 		return temp_reward;
 	}

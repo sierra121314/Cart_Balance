@@ -36,7 +36,7 @@ namespace CB {
 	// weight of cart
 	struct Cart {
 
-		const int Mc = 200; // Mass of the Cart
+		const int mass_c; // Mass of the Cart
 		const int y; // Y position of Cart - Irrelevant due to gravity
 		const int y_dot; // Velocity of y component of Cart - Irrelevant due to gravity
 		const int y_dd; // Y double dot - Y component of acceleration of Cart
@@ -45,7 +45,8 @@ namespace CB {
 		double x; // X Position of Cart
 		double x_dot; // Velocity of x component of Cart
 		double x_dd; // Acceleration of x component of Cart
-
+		// Cart cart;
+		// cart.mass_c = 100;
 	};
 
 	///////////////////////////////////
@@ -65,8 +66,8 @@ namespace CB {
 	class Pendulum {
 	private:
 		// static variables
-		const double m = 50; // Mass of Pendulum
-		const double L = 10; // Length of the Pendulum
+		double mass_p; // Mass of Pendulum
+		double length; // Length of the Pendulum
 		
 		// collection of states
 		std::vector <Pend_state> pend;
@@ -89,9 +90,11 @@ namespace CB {
 	Pendulum::Pendulum()
 	{
 		Pend_state initial;
+		mass_p = 50;
+		length = 10;
 		initial.theta = 45 * M_PI / 180;
-		initial.Px = L*cos(initial.theta);
-		initial.Py = L*cos(initial.theta);
+		initial.Px = length*cos(initial.theta);
+		initial.Py = length*cos(initial.theta);
 		// initialize theta_dot=0 and theta double dot= little less that 90 degrees
 		initial.theta_dot = 0; // rad/s // theta dot of this specific pendulum
 		initial.theta_dd = 0;
@@ -110,14 +113,14 @@ namespace CB {
 
 		// does all necessary calculations, given an action (already set from set_action), to arrive at the next state at the next timestep.
 		//torque to theta dd
-		nextState.theta_dd = -g*cos(pend[pend.end() - 1].theta) / (m*L) + torq; //rad/s^2   // define theta_dd with t variable 
+		nextState.theta_dd = -g*cos(pend[pend.end() - 1].theta) / (mass_p*length) + torq; //rad/s^2   // define theta_dd with t variable 
 		//thetat_dd to theta_dot
-		nextState.theta_dot = pend[pend.end() - 1].theta_dot + nextState.theta_dd*dt;
+		nextState.theta_dot = pend.at(pend.end() - 1).theta_dot + nextState.theta_dd*dt;
 		//theta_dot to theta
-		nextState.theta = pend[pend.end() - 1].theta + nextState.theta_dot*dt;
+		nextState.theta = pend.at(pend.end() - 1).theta + nextState.theta_dot*dt;
 		//theta to xy
-		nextState.Px = L*cos(nextState.theta);
-		nextState.Py = L*sin(nextState.theta);
+		nextState.Px = length*cos(nextState.theta);
+		nextState.Py = length*sin(nextState.theta);
 
 		std::cout << nextState.theta << "," << nextState.theta_dot << "," << nextState.theta_dd << "," << nextState.Px << "," << nextState.Py << std::endl;
 
@@ -132,10 +135,10 @@ namespace CB {
 									  //calculate xy
 									  //use theta
 									  //output xy
-			fout << pend.give_state(pend.end()-1).Px << "," << pend.give_state(pend.end()-1).Py << "," << dt*i << "," \
+			//fout << pend.at(pend.end()-1).Px << "," << pend.at(pend.end()-1).Py << "," << dt*i << "," \
 				<< pend.give_state(pend.end()-1).theta << "," << pend.give_state(pend.end()-1).theta_dot << "," \
 				<< pend.give_state(pend.end()-1).theta_dd << std::endl;
-		}
+		}  // replace give_state with .at
 		fout.close();
 
 	}

@@ -114,11 +114,11 @@ namespace CB {
 
 		// does all necessary calculations, given an action (already set from set_action), to arrive at the next state at the next timestep.
 		//torque to theta dd
-		nextState.theta_dd = -g*cos(pend.at(pend.end() - 1).theta) / (mass_p*length) + torq; //rad/s^2   // define theta_dd with t variable 
+		nextState.theta_dd = -g*cos(pend.at(pend.size() - 1).theta) / (mass_p*length) + torq; //rad/s^2   // define theta_dd with t variable 
 		//thetat_dd to theta_dot
-		nextState.theta_dot = pend.at(pend.end() - 1).theta_dot + nextState.theta_dd*dt;
+		nextState.theta_dot = pend.at(pend.size() - 1).theta_dot + nextState.theta_dd*dt;
 		//theta_dot to theta
-		nextState.theta = pend.at(pend.end() - 1).theta + nextState.theta_dot*dt;
+		nextState.theta = pend.at(pend.size() - 1).theta + nextState.theta_dot*dt;
 		//theta to xy
 		nextState.Px = length*cos(nextState.theta);
 		nextState.Py = length*sin(nextState.theta);
@@ -161,8 +161,8 @@ namespace CB {
 	std::vector <double> Pendulum::give_state() {
 		//gives the state of the pendulum at the given timestep
 		std::vector <double> temp_state;
-		temp_state.push_back(pend.at(pend.end()-1).theta);
-		temp_state.push_back(pend.at(pend.end()-1).theta_dot);
+		temp_state.push_back(pend.at(pend.size()-1).theta);
+		temp_state.push_back(pend.at(pend.size()-1).theta_dot);
 		return temp_state;
 	}
 	std::vector <double> Pendulum::give_reward() {

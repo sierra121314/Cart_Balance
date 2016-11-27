@@ -146,7 +146,12 @@ namespace CB {
 
 	double Pendulum::determine_reward() {
 		double temp_reward;
-		temp_reward = 0.0;
+		if theta == 90 && theta_dot == 0 {
+			temp_reward = 0.0;
+			else 
+				temp_reward = 1;
+			end
+		}
 		return temp_reward;
 	}
 

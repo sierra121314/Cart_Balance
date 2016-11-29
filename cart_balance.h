@@ -146,10 +146,10 @@ namespace CB {
 		//calculate xy
 		//use theta
 		//output xy
-		fout << pend.at(pend.size()-1).Px << "," << pend.at(pend.size()-1).Py \
-			<< "," << dt*cycle_count << "," << pend.at(pend.size()-1).theta << "," \
-			<< pend.at(pend.size()-1).theta_dot << "," \
-			<< pend.at(pend.size()-1).theta_dd << "\n";
+		fout << pend.at(pend.size()-1).Px << "," << nextState.Py \
+			<< "," << dt*cycle_count << "," << nextState.theta << "," \
+			<< nextState.theta_dot << "," \
+			<< nextState.theta_dd << "\n";
 	 
 		fout.close();
 #endif 

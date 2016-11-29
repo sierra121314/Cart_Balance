@@ -4,6 +4,9 @@
 #ifndef _CART_BALANCE_CODE_
 #define _CART_BALANCE_CODE_
 
+#define CB_CONSULE
+#define CB_FILE
+
 #define _USE_MATH_DEFINES
 #include <math.h>
 #include <stdio.h>
@@ -16,16 +19,16 @@
 // Table boundaries
 // gravity = 9.81; // m/s
 
-// Initialize knowns
-const float g = 9.81f; // m/s^2
-const int n = 1; // iterations
-static const double dt = 0.1; //time step
+
 
 ////Struct has function 
 //Class has public, private, function and inheritance
 
 namespace CB {
 
+	// Initialize knowns
+	const float g = 9.81f; // m/s^2
+	static const double dt = 0.1; //time step
 	// Cart
 	// Establish cart boundaries
 	// cart movements - left and right
@@ -76,7 +79,7 @@ namespace CB {
 		// Changing variables
 		double torq;
 		double I;
-		double reward; //last reward for the last action
+		double fitness; //last reward for the last action
 
 		// public functions
 		double determine_reward();
@@ -122,36 +125,39 @@ namespace CB {
 		//theta to xy
 		nextState.Px = length*cos(nextState.theta);
 		nextState.Py = length*sin(nextState.theta);
-
-		std::cout << nextState.theta << "," << nextState.theta_dot << "," << nextState.theta_dd << "," << nextState.Px << "," << nextState.Py << std::endl;
+#ifdef CB_CONSULE
+		std::cout << nextState.theta << "," << nextState.theta_dot << "," \
+		<< nextState.theta_dd << "," << nextState.Px << "," << nextState.Py \
+		<< std::endl;
+#endif		
 
 		pend.push_back(nextState); //update state
 
-		reward = determine_reward();
-
+		fitness = determine_reward();
+#ifdef CB_FILE
 		std::ofstream fout;
 		fout.clear();
 		fout.open("positiondata2.csv", std::ofstream::out | std::ofstream::app);
-		for (int i = 0; i < n; i++) { // for i number of iterations 
-									  //calculate xy
-									  //use theta
-									  //output xy
-			//fout << pend.at(pend.end()-1).Px << "," << pend.at(pend.end()-1).Py << "," << dt*i << "," \
-				<< pend.give_state(pend.end()-1).theta << "," << pend.give_state(pend.end()-1).theta_dot << "," \
-				<< pend.give_state(pend.end()-1).theta_dd << std::endl;
-		}  // replace give_state with .at
+		//calculate xy
+		//use theta
+		//output xy
+		fout << pend.at(pend.size()-1).Px << "," << pend.at(pend.size()-1).Py \
+			<< "," << dt*i << "," << pend.at(pend.size()-1).theta << "," \
+			<< pend.at(pend.size()-1).theta_dot << "," \
+			<< pend.at(pend.size()-1).theta_dd << "\n";
+	 
 		fout.close();
-
+#endif 
 	}
 
 	double Pendulum::determine_reward() {
-		double temp_reward;
-		fitness_1 = abs(M_PI/2 - theta);
-		fitness_2 = abs(0 - theta_dot);
+		double total_fitness;
+		double fitness_1 = abs(M_PI/2 - theta);
+		double fitness_2 = abs(0 - theta_dot);
 		
-		temp_reward = fitness_1 + fitness_2;
+		total_fitness = fitness_1 + fitness_2;
 		
-		return temp_reward;
+		return total_fitness;
 	}
 
 	void Pendulum::get_action(std::vector <double> in_action) { //receives "action vection", which in the first case will just consist of the torque at the joint
@@ -170,10 +176,10 @@ namespace CB {
 		return temp_state;
 	}
 	std::vector <double> Pendulum::give_reward() {
-		std::vector <double> temp_reward;
-		temp_reward.push_back(reward);
+		std::vector <double> total_fitness;
+		total_fitness.push_back(fitness);
 
-		return temp_reward;
+		return total_fitness;
 	}
 }
 

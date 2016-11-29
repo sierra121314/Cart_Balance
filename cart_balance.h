@@ -146,12 +146,11 @@ namespace CB {
 
 	double Pendulum::determine_reward() {
 		double temp_reward;
-		if theta == 90 && theta_dot == 0 {
-			temp_reward = 0.0;
-			else 
-				temp_reward = 1;
-			end
-		}
+		fitness_1 = abs(M_PI/2 - theta);
+		fitness_2 = abs(0 - theta_dot);
+		
+		temp_reward = fitness_1 + fitness_2;
+		
 		return temp_reward;
 	}
 

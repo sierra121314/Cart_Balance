@@ -14,7 +14,7 @@
 #include <fstream>
 #include <vector>
 #include <iostream>
-#include <string>
+//#include <string>
 
 // Establish boundaries
 // Table boundaries
@@ -86,7 +86,7 @@ namespace CB {
 		double determine_reward();
 	public:
 		Pendulum();
-		std::string output_filename;
+		//std::string output_filename;
 		std::vector <double> give_reward();
 		std::vector <double> give_state();
 		void get_action(std::vector <double>);
@@ -100,7 +100,7 @@ namespace CB {
 		// able to change //
 		mass_p = 50;
 		length = 10;
-		output_filename = "Pendulumdata.csv";
+		//output_filename = "Pendulumdata.csv";
 		////////////////////
 		cycle_count = 1;
 		initial.theta = 45 * M_PI / 180;
@@ -113,7 +113,7 @@ namespace CB {
 		pend.push_back(initial); //push_back pushes it to the back of the vector
 		
 		std::ofstream fout;
-		fout.open(output_filename, std::ofstream::out | std::ofstream::trunc);
+		fout.open("pendulumdata.csv", std::ofstream::out | std::ofstream::trunc);
 		fout.close();
 	}
 
@@ -146,7 +146,7 @@ namespace CB {
 		fitness = determine_reward();
 #ifdef CB_FILE
 		std::ofstream fout;
-		fout.open(output_filename, std::ofstream::out | std::ofstream::app);
+		fout.open("pendulumdata.csv", std::ofstream::out | std::ofstream::app);
 		//calculate xy
 		//use theta
 		//output xy

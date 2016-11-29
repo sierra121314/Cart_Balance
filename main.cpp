@@ -7,8 +7,8 @@ int main()
 	CB::Pendulum pend;
 
 	for (std::size_t i=0; i<10; ++i) {
-	// calculate all of the states of the pendulum along the curve
-	pend.cycle();
+		// calculate all of the states of the pendulum along the curve
+		pend.cycle();
 	}
 
 	// initialize cart weight

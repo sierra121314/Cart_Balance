@@ -89,13 +89,17 @@ namespace CB {
 		std::vector <double> give_state();
 		void get_action(std::vector <double>);
 		void cycle();
+		unsigned int cycle_count;
 	};
 
 	Pendulum::Pendulum()
 	{
 		Pend_state initial;
+		// able to change //
 		mass_p = 50;
 		length = 10;
+		////////////////////
+		cycle_count = 1;
 		initial.theta = 45 * M_PI / 180;
 		initial.Px = length*cos(initial.theta);
 		initial.Py = length*cos(initial.theta);
@@ -104,7 +108,9 @@ namespace CB {
 		initial.theta_dd = 0;
 
 		pend.push_back(initial); //push_back pushes it to the back of the vector
-
+		std::ofstream fout;
+		fout.open("positiondata2.csv", std::ofstream::out | std::ofstream::trunc);
+		fout.close();
 	}
 
 
@@ -136,18 +142,18 @@ namespace CB {
 		fitness = determine_reward();
 #ifdef CB_FILE
 		std::ofstream fout;
-		fout.clear();
 		fout.open("positiondata2.csv", std::ofstream::out | std::ofstream::app);
 		//calculate xy
 		//use theta
 		//output xy
 		fout << pend.at(pend.size()-1).Px << "," << pend.at(pend.size()-1).Py \
-			<< "," << dt*i << "," << pend.at(pend.size()-1).theta << "," \
+			<< "," << dt*cycle_count << "," << pend.at(pend.size()-1).theta << "," \
 			<< pend.at(pend.size()-1).theta_dot << "," \
 			<< pend.at(pend.size()-1).theta_dd << "\n";
 	 
 		fout.close();
 #endif 
+		++cycle_count;
 	}
 
 	double Pendulum::determine_reward() {

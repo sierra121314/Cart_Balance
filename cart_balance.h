@@ -158,8 +158,8 @@ namespace CB {
 
 	double Pendulum::determine_reward() {
 		double total_fitness;
-		double fitness_1 = abs(M_PI/2 - theta);
-		double fitness_2 = abs(0 - theta_dot);
+		double fitness_1 = abs(M_PI/2 - pend.at(pend.size()-1).theta);
+		double fitness_2 = abs(0 - pend.at(pend.size()-1).theta_dot);
 		
 		total_fitness = fitness_1 + fitness_2;
 		

@@ -79,7 +79,7 @@ namespace CB {
 		double reward; //last reward for the last action
 
 		// public functions
-		void determine_reward();
+		double determine_reward();
 	public:
 		Pendulum();
 		std::vector <double> give_reward();

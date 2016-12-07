@@ -4,7 +4,8 @@
 #ifndef _CART_BALANCE_CODE_
 #define _CART_BALANCE_CODE_
 
-#define CB_CONSULE
+//#define CB_CONSULE
+//#define CB_FILE
 
 #define _USE_MATH_DEFINES
 #include <math.h>
@@ -18,6 +19,8 @@
 // Establish boundaries
 // Table boundaries
 // gravity = 9.81; // m/s
+
+
 
 ////Struct has function 
 //Class has public, private, function and inheritance
@@ -61,8 +64,7 @@ namespace CB {
 		double Py; // y coordinate of Pendulum;{
 			
 		double theta_dot; // ever changing velocity of theta.
-		double theta_dd; // acceleration of theta
-
+		double theta_dd; // acceleration of theta.
 	};
 
 
@@ -88,12 +90,12 @@ namespace CB {
 		std::vector <double> give_reward();
 		std::vector <double> give_state();
 		void get_action(std::vector <double>);
-		void export_all_states();
 		void cycle();
 		unsigned int cycle_count;
+		void export_all_states();
 	};
 
-	Pendulum::Pendulum() //Constructor
+	Pendulum::Pendulum()
 	{
 		Pend_state initial;
 		// able to change //
@@ -108,12 +110,9 @@ namespace CB {
 		// initialize theta_dot=0 and theta double dot= little less that 90 degrees
 		initial.theta_dot = 0; // rad/s // theta dot of this specific pendulum
 		initial.theta_dd = 0;
-		
+
 		pend.push_back(initial); //push_back pushes it to the back of the vector
-		
-	}
-
-
+}
 
 	void Pendulum::cycle() {
 
@@ -140,7 +139,7 @@ namespace CB {
 		pend.push_back(nextState); //update state
 
 		fitness = determine_reward();
-
+		
 		++cycle_count;
 	}
 
@@ -177,16 +176,14 @@ namespace CB {
 	}
 	void Pendulum::export_all_states() {
 		std::ofstream fout;
-		fout.open("pendulumdata.csv", std::ofstream::out | std::ofstream::trunc);
+		fout.open("pend_state_log.csv", std::ofstream::out | std::ofstream::trunc);
 		for (std::size_t i=0; i<pend.size(); ++i) {
-			fout << pend.at(i).Px << "," << pend.at(i).Py \
-			<< "," << dt*cycle_count << "," << pend.at(i).theta << "," \
-			<< pend.at(i).theta_dot << "," \
-			<< pend.at(i).theta_dd << "," << torq <<"\n";
-		}
+			fout << torq << ", " << pend.at(i).Px << ", " << pend.at(i).Py << ", " << \
+				pend.at(i).theta << ", " << pend.at(i).theta_dot << ", " << \
+				pend.at(i).theta_dd << "\n";
+		}	
 		fout.close();
-	}
-	
+	}	
 }
 
 #endif // !

@@ -1,6 +1,5 @@
 #include "cart_balance.h"
 
-
 int main()
 {
 	// variables
@@ -10,7 +9,9 @@ int main()
 		// calculate all of the states of the pendulum along the curve
 		pend.cycle();
 	}
-	pend.export_all_states();
+	
+	//pend.export_all_states();
+	
 	// initialize cart weight
 	//Cart cart; // Object call cart of type cart
 	//cart.x = 0;

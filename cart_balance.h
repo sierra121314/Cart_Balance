@@ -88,7 +88,7 @@ namespace CB {
 		std::vector <double> give_reward();
 		std::vector <double> give_state();
 		void get_action(std::vector <double>);
-		//void export_all_states();
+		void export_all_states();
 		void cycle();
 		unsigned int cycle_count;
 	};
@@ -174,7 +174,7 @@ namespace CB {
 		total_fitness.push_back(fitness);
 
 		return total_fitness;
-	}/*
+	}
 	void Pendulum::export_all_states() {
 		std::ofstream fout;
 		fout.open("pendulumdata.csv", std::ofstream::out | std::ofstream::trunc);
@@ -186,7 +186,6 @@ namespace CB {
 		}
 		fout.close();
 	}
-	*/
 	
 }
 

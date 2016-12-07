@@ -188,7 +188,7 @@ namespace CB {
 			fout << pend.at(i).Px << "," << pend.at(i).Py \
 			<< "," << dt*cycle_count << "," << pend.at(i).theta << "," \
 			<< pend.at(i).theta_dot << "," \
-			<< pend.at(i).theta_dd << "," << torq <<"\n";
+			<< pend.at(i).theta_dd << "," << pend.torq <<"\n";
 		}
 		fout.close();
 		

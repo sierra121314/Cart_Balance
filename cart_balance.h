@@ -5,7 +5,6 @@
 #define _CART_BALANCE_CODE_
 
 #define CB_CONSULE
-#define CB_FILE
 
 #define _USE_MATH_DEFINES
 #include <math.h>
@@ -19,8 +18,6 @@
 // Establish boundaries
 // Table boundaries
 // gravity = 9.81; // m/s
-
-
 
 ////Struct has function 
 //Class has public, private, function and inheritance
@@ -91,7 +88,7 @@ namespace CB {
 		std::vector <double> give_reward();
 		std::vector <double> give_state();
 		void get_action(std::vector <double>);
-		void export_all_states();
+		//void export_all_states();
 		void cycle();
 		unsigned int cycle_count;
 	};
@@ -112,9 +109,7 @@ namespace CB {
 		initial.theta_dot = 0; // rad/s // theta dot of this specific pendulum
 		initial.theta_dd = 0;
 		
-
 		pend.push_back(initial); //push_back pushes it to the back of the vector
-		
 		
 	}
 
@@ -179,9 +174,8 @@ namespace CB {
 		total_fitness.push_back(fitness);
 
 		return total_fitness;
-	}
+	}/*
 	void Pendulum::export_all_states() {
-		/*
 		std::ofstream fout;
 		fout.open("pendulumdata.csv", std::ofstream::out | std::ofstream::trunc);
 		for (std::size_t i=0; i<pend.size(); ++i) {
@@ -191,10 +185,8 @@ namespace CB {
 			<< pend.at(i).theta_dd << "," << torq <<"\n";
 		}
 		fout.close();
-		
-		*/
 	}
-	
+	*/
 	
 }
 

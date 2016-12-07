@@ -181,18 +181,18 @@ namespace CB {
 		return total_fitness;
 	}
 	void Pendulum::export_all_states() {
-		
+		/*
 		std::ofstream fout;
 		fout.open("pendulumdata.csv", std::ofstream::out | std::ofstream::trunc);
 		for (std::size_t i=0; i<pend.size(); ++i) {
 			fout << pend.at(i).Px << "," << pend.at(i).Py \
 			<< "," << dt*cycle_count << "," << pend.at(i).theta << "," \
 			<< pend.at(i).theta_dot << "," \
-			<< pend.at(i).theta_dd << "," << pend.torq <<"\n";
+			<< pend.at(i).theta_dd << "," << torq <<"\n";
 		}
 		fout.close();
 		
-		
+		*/
 	}
 	
 	

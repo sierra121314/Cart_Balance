@@ -64,7 +64,8 @@ namespace CB {
 		double Py; // y coordinate of Pendulum;{
 			
 		double theta_dot; // ever changing velocity of theta.
-		double theta_dd; // acceleration of theta.
+		double theta_dd; // acceleration of theta
+
 	};
 
 
@@ -94,27 +95,26 @@ namespace CB {
 		unsigned int cycle_count;
 	};
 
-	Pendulum::Pendulum()
+	Pendulum::Pendulum() //Constructor
 	{
 		Pend_state initial;
 		// able to change //
-		mass_p = 50;
-		length = 10;
+		mass_p = 5;
+		length = 1;
 		//output_filename = "Pendulumdata.csv";
 		////////////////////
 		cycle_count = 1;
-		initial.theta = 45 * M_PI / 180;
+		initial.theta = 89 * M_PI / 180;
 		initial.Px = length*cos(initial.theta);
 		initial.Py = length*cos(initial.theta);
 		// initialize theta_dot=0 and theta double dot= little less that 90 degrees
 		initial.theta_dot = 0; // rad/s // theta dot of this specific pendulum
 		initial.theta_dd = 0;
+		
 
 		pend.push_back(initial); //push_back pushes it to the back of the vector
 		
-		std::ofstream fout;
-		fout.open("pendulumdata.csv", std::ofstream::out | std::ofstream::trunc);
-		fout.close();
+		
 	}
 
 
@@ -144,19 +144,7 @@ namespace CB {
 		pend.push_back(nextState); //update state
 
 		fitness = determine_reward();
-#ifdef CB_FILE
-		std::ofstream fout;
-		fout.open("pendulumdata.csv", std::ofstream::out | std::ofstream::app);
-		//calculate xy
-		//use theta
-		//output xy
-		fout << pend.at(pend.size()-1).Px << "," << nextState.Py \
-			<< "," << dt*cycle_count << "," << nextState.theta << "," \
-			<< nextState.theta_dot << "," \
-			<< nextState.theta_dd << "\n";
-	 
-		fout.close();
-#endif 
+
 		++cycle_count;
 	}
 
@@ -191,6 +179,22 @@ namespace CB {
 
 		return total_fitness;
 	}
+	void Pendulum::export_all_states() {
+		
+		std::ofstream fout;
+		fout.open("pendulumdata.csv", std::ofstream::out | std::ofstream::trunc);
+		for (std:size_t i=0; i<pend.size(); ++i) {
+			fout << pend.at(i).Px << "," << pend.at(i).Py \
+			<< "," << dt*cycle_count << "," << pend.at(i).theta << "," \
+			<< pend.at(i).theta_dot << "," \
+			<< pend.at(i).theta_dd << "," << torq <<"\n";
+		}
+		fout.close();
+		
+		
+	}
+	
+	
 }
 
 #endif // !

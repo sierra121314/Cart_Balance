@@ -91,6 +91,7 @@ namespace CB {
 		std::vector <double> give_reward();
 		std::vector <double> give_state();
 		void get_action(std::vector <double>);
+		void export_all_states(std::vector <double>);
 		void cycle();
 		unsigned int cycle_count;
 	};
